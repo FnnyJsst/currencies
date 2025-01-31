@@ -8,6 +8,7 @@ function CurrencyConverter() {
   const [result, setResult] = useState(null);
   const [selectedFrom, setSelectedFrom] = useState(null);
   const [selectedTo, setSelectedTo] = useState(null);
+  const [amount, setAmount] = useState(null);
 
   useEffect(() => {
     let isMounted = true; 
@@ -37,9 +38,9 @@ function CurrencyConverter() {
 
 
   const convertCurrency = () => {
-    const amount = parseFloat(document.querySelector('input[type="text"]').value);
+    const parsedAmount = parseFloat(amount);
     
-    if (!selectedFrom || !selectedTo || !amount) {
+    if (!selectedFrom || !selectedTo || !parsedAmount) {
       console.error("Veuillez sélectionner les devises et entrer un montant valide.");
       return;
     }
@@ -52,8 +53,9 @@ function CurrencyConverter() {
       return;
     }
 
-    const math = amount * (rateFrom / rateTo);
-    setResult(math);
+    const result = amount * (rateFrom / rateTo);
+    const optimizedResult = result.toFixed(2);
+    setResult(optimizedResult);
   };
 
 
@@ -61,7 +63,7 @@ function CurrencyConverter() {
   return (
     <div>
       <h1>Currency Converter</h1>
-      <input type="text" placeholder="tapez votre valeur ici"/>
+      <input type="text" placeholder="tapez votre valeur ici" value={amount} onChange={(e) => setAmount(e.target.value)}/>
       <select onChange={(e) => setSelectedFrom(e.target.value)} defaultValue="default">
       <option disabled value="default">Sélectionnez une valeur</option>
         {rates && rates.map(([currency]) => (
@@ -75,7 +77,7 @@ function CurrencyConverter() {
         ))}
       </select>
       <button onClick={convertCurrency}>Convertir</button>
-      {result && <p>Résultat: {result}</p>}
+      {result && <p>{amount} {selectedFrom} = {result} {selectedTo}</p>}
     </div>
   );
 }
