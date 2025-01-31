@@ -13,6 +13,7 @@ const fetchCurrencyRates = async () => {
     if (!response.data) {
       throw new Error('Pas de données reçues de l\'API');
     }
+    console.log(response.data.rates.keys);
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des taux:', error);

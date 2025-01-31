@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import * as currencyService from '../services/currencyService';
 
 function CurrencyConverter() {
@@ -9,6 +9,7 @@ function CurrencyConverter() {
   const [selectedFrom, setSelectedFrom] = useState(null);
   const [selectedTo, setSelectedTo] = useState(null);
   const [amount, setAmount] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     let isMounted = true; 
@@ -37,6 +38,8 @@ function CurrencyConverter() {
   }, []); 
 
 
+
+
   const convertCurrency = () => {
     const parsedAmount = parseFloat(amount);
     
@@ -58,6 +61,10 @@ function CurrencyConverter() {
     setResult(optimizedResult);
   };
 
+  // const currencies = useMemo(() => {
+  //   con
+  // })
+
 
 
   return (
@@ -78,6 +85,7 @@ function CurrencyConverter() {
       </select>
       <button onClick={convertCurrency}>Convertir</button>
       {result && <p>{amount} {selectedFrom} = {result} {selectedTo}</p>}
+      <input type="text" value="search"/>
     </div>
   );
 }
